@@ -26,6 +26,11 @@ Lattice::~Lattice()
   delete [] _fragments;
 }
 
+void Lattice::implement()
+{
+
+}
+
 Fragment *Lattice::getFragment(int index) { return _fragments[index]; }
 
 int Lattice::nThreads() { return _nThreads; }
@@ -172,38 +177,4 @@ void Lattice::_setNeighbours(int i)
     else
       _fragments[i]->setNeighbour(3, _fragments[i - _nWidth + 1]);
   }
-
-//  if(i / _nWidth == 0) // top
-//  {
-//    if(_isTorus)
-//      _fragments[i]->setNeighbour(1, _fragments[_nWidth * (_nHeight - 1) +
-//                                  (i % _nWidth)]);
-//  }
-//  else
-//  {
-//    _fragments[i]->setNeighbour(1, _fragments[i - _nWidth]);
-//  }
-//  if(i / _nWidth == _nHeight - 1) // bottom
-//  {
-//    if(_isTorus)
-//      _fragments[i]->setNeighbour(5, _fragments[i % _nWidth]);
-//  }
-//  else
-//  {
-//    _fragments[i]->setNeighbour(5, _fragments[i + _nWidth]);
-//  }
-//  if(i % _nWidth == 0) // left middle
-//  {
-//    if(_isTorus)
-//      _fragments[i]->setNeighbour(7, _fragments[i + _nWidth - 1]);
-//  }
-//  else
-//    _fragments[i]->setNeighbour(7, _fragments[i - 1]);
-//  if(i % _nWidth == _nWidth - 1) // right middle
-//  {
-//    if(_isTorus)
-//      _fragments[i]->setNeighbour(3, _fragments[i - _nWidth + 1]);
-//  }
-//  else
-//    _fragments[i]->setNeighbour(3, _fragments[i + 1]);
 }
