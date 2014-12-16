@@ -7,7 +7,7 @@ int main()
 {
   Lattice *lattice;
   Control control;
-  control.setLattice(&lattice);
+  control.setLattice(lattice);
   control.execute();
   return 0;
 }

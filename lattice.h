@@ -12,7 +12,10 @@ public:
                                      //is torus
   ~Lattice();
 
-  Fragment *fragment(int);
+  Fragment *getFragment(int); //gets pointer to fragment by index
+  int nThreads(); //returns amount if threads
+  int nWidth(); //returns amount of splitted fragments by width
+  int nHeight(); //returns amount of splitted fragments by height
 
 private:
   bool _isTorus; //show whether lattice is torus-like or not
@@ -24,9 +27,9 @@ private:
   int _nThreads; //amount of threads-fragments
   Fragment **_fragments; //pointers to fragments itself
 
-  //splits lattice on almost equal rectangles
-  void _splitLattice();
-  void _setFragments();
+  void _splitLattice(); //splits lattice on approximately equal rectangles
+  void _initFragments(); //initializes fragments
+  void _setNeighbours(int); //initializes neighbours of fragments
 };
 
 #endif // LATTICE_H

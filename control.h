@@ -10,10 +10,10 @@ public:
   ~Control();
 
   void execute();
-  void setLattice(Lattice **);
+  void setLattice(Lattice *&);
 
 private:
-  Lattice **_lattice;
+  Lattice *_lattice;
 
   void _querySetLatticeParameters();
   void _messageLatticeInitialized();

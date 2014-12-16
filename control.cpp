@@ -1,8 +1,12 @@
 #include "lattice.h"
+#include "fragment.h"
 #include "control.h"
+#include <iomanip>
 #include <iostream>
 #include <fstream>
 #include <cstring>
+
+#define W 4
 
 using namespace std;
 
@@ -12,13 +16,13 @@ using namespace std;
 
 Control::Control()
 {
-
+  cout << fixed;
 }
 
 Control::~Control()
 {
-  if(*_lattice)
-    delete *_lattice;
+  if(_lattice)
+    delete _lattice;
 }
 
 void Control::execute()
@@ -36,10 +40,7 @@ void Control::execute()
   cout << "Bye!\n";
 }
 
-void Control::setLattice(Lattice **lattice)
-{
-  _lattice = lattice;
-}
+void Control::setLattice(Lattice *&lattice) { _lattice = lattice; }
 
 /*
  * PRIVATE
@@ -55,11 +56,43 @@ void Control::_querySetLatticeParameters()
   cout << "Amount of desired threads: "; cin >> nThreads;
   cout << "Execution time: "; cin >> timeLimit;
   cout << "Should lattice be torus-like?: "; cin >> isTorus;
-  *_lattice = new Lattice(width, height, nThreads, timeLimit, isTorus);
+  _lattice = new Lattice(width, height, nThreads, timeLimit, isTorus);
 }
 
 void Control::_messageLatticeInitialized()
 {
   cout << "Lattice initialized.\n";
-  cout << "";
+  cout << "Lattice is splitted on " << _lattice->nThreads()
+       << " fragments in such a way (height x width ): "
+       << _lattice->nHeight() << "x" << _lattice->nWidth() << "\n";
+  cout << "Fragments:\n";
+  for(int i = 0; i < _lattice->nThreads(); i++)
+  {
+    cout << i << " fragment, id = "
+         << _lattice->getFragment(i)->id() << ", size = "
+         << _lattice->getFragment(i)->height() << "x"
+         << _lattice->getFragment(i)->width() << ", neighbours:\n";
+    for(int j = 0; j < 3; j++)
+      if(_lattice->getFragment(i)->getNeighbour(j))
+        cout << setw(W) << _lattice->getFragment(i)->getNeighbour(j)->id();
+      else
+        cout << setw(W) << "-";
+    cout << '\n';
+    if(_lattice->getFragment(i)->getNeighbour(7))
+      cout << setw(W) << _lattice->getFragment(i)->getNeighbour(7)->id();
+    else
+      cout << setw(W) << "-";
+    cout << setw(W) << "x";
+    if(_lattice->getFragment(i)->getNeighbour(3))
+      cout << setw(W) << _lattice->getFragment(i)->getNeighbour(3)->id();
+    else
+      cout << setw(W) << "-";
+    cout << '\n';
+    for(int j = 6; j > 3; j--)
+      if(_lattice->getFragment(i)->getNeighbour(j))
+        cout << setw(W) << _lattice->getFragment(i)->getNeighbour(j)->id();
+      else
+        cout << setw(W) << "-";
+    cout << '\n';
+  }
 }
